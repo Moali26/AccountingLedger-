@@ -229,54 +229,64 @@ public class Main {
                                         System.out.println("Enter amount or leave blank:");
                                         String amountInput = scanner.nextLine();
                                         List<Transaction> customResults = new ArrayList<>();
-                                        for (Transaction t : transactions) {
-                                            LocalDate transactionDate = LocalDate.parse(t.getDate());
-                                            boolean matchesFilters = true;
+                                        try {
+                                            for (Transaction t : transactions) {
+                                                LocalDate transactionDate = LocalDate.parse(t.getDate());
+                                                boolean matchesFilters = true;
 
-                                            if (!startDateInput.isEmpty()) {
-                                                LocalDate startDate = LocalDate.parse(startDateInput);
+                                                if (!startDateInput.isEmpty()) {
+                                                    LocalDate startDate = LocalDate.parse(startDateInput);
 
-                                                if (transactionDate.isBefore(startDate)) {
-                                                    matchesFilters = false;
+                                                    if (transactionDate.isBefore(startDate)) {
+                                                        matchesFilters = false;
+                                                    }
                                                 }
-                                            }
 
-                                            if (!endDateInput.isEmpty()) {
-                                                LocalDate endDate = LocalDate.parse(endDateInput);
+                                                if (!endDateInput.isEmpty()) {
+                                                    LocalDate endDate = LocalDate.parse(endDateInput);
 
-                                                if (transactionDate.isAfter(endDate)) {
-                                                    matchesFilters = false;
+                                                    if (transactionDate.isAfter(endDate)) {
+                                                        matchesFilters = false;
+                                                    }
                                                 }
-                                            }
 
-                                            if (!descriptionInput.isEmpty()) {
-                                                if (!t.getDescription().equalsIgnoreCase(descriptionInput)) {
-                                                    matchesFilters = false;
+                                                if (!descriptionInput.isEmpty()) {
+                                                    if (!t.getDescription().equalsIgnoreCase(descriptionInput)) {
+                                                        matchesFilters = false;
+                                                    }
                                                 }
-                                            }
 
-                                            if (!vendorInput.isEmpty()) {
-                                                if (!t.getVendor().equalsIgnoreCase(vendorInput)) {
-                                                    matchesFilters = false;
+                                                if (!vendorInput.isEmpty()) {
+                                                    if (!t.getVendor().equalsIgnoreCase(vendorInput)) {
+                                                        matchesFilters = false;
+                                                    }
                                                 }
-                                            }
 
-                                            if (!amountInput.isEmpty()) {
-                                                double searchAmount = Double.parseDouble(amountInput);
+                                                if (!amountInput.isEmpty()) {
+                                                    double searchAmount = Double.parseDouble(amountInput);
 
-                                                if (t.getAmount() != searchAmount) {
-                                                    matchesFilters = false;
+                                                    if (t.getAmount() != searchAmount) {
+                                                        matchesFilters = false;
+                                                    }
                                                 }
+                                                if (matchesFilters) {
+                                                    customResults.add(t);
+
+
+                                                }
+
                                             }
-                                            if (matchesFilters) {
-                                                customResults.add(t);
 
+                                            sortTransactions(customResults);
+                                        } catch(java.time.format.DateTimeParseException e){
+                                            System.out.println("Invalid date. Please use YYYY-MM-DD");
 
-                                            }
-
+                                        }catch (NumberFormatException e){
+                                            System.out.println("Invalid amount. Please enter a number.");
                                         }
 
-                                        sortTransactions(customResults);
+
+
                                         break;
                                     case "0":
                                         reportsRunning = false;
