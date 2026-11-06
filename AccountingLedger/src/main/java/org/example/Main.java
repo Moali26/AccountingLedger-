@@ -185,7 +185,8 @@ public class Main {
                                         List<Transaction> yearToDate = new ArrayList<>();
                                         for (Transaction t : transactions) {
                                             LocalDate transactionDate = LocalDate.parse(t.getDate());
-                                            if (transactionDate.getYear() == currentDate.getYear()) {
+                                            if (transactionDate.getYear() == currentDate.getYear()
+                                                    && transactionDate.getDayOfYear() <= currentDate.getDayOfYear()) {
                                                 yearToDate.add(t);
                                             }
                                         }

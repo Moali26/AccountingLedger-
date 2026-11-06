@@ -33,19 +33,20 @@ public class FileManager {
 
     }
 
-    public static void saveTransaction(Transaction transaction) {
+    public static boolean saveTransaction(Transaction transaction) {
         try {
-            FileWriter fileWriter = new FileWriter("src/main/resources/transactions.csv", true);
+            FileWriter fileWriter =
+                    new FileWriter("src/main/resources/transactions.csv", true);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-
 
             bufferedWriter.write(transaction.toString());
             bufferedWriter.newLine();
             bufferedWriter.close();
 
-        }
-        catch(IOException e){
+            return true;
+        } catch (IOException e) {
             CliColors.error("Error saving transaction: " + e.getMessage());
+            return false;
         }
     }
 }
