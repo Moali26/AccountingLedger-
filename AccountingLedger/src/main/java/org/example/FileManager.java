@@ -27,7 +27,7 @@ public class FileManager {
 
 
         } catch (Exception e) {
-            System.out.println("Error reading transactions;" + e.getMessage());
+            CliColors.error("Error reading transactions: " + e.getMessage());
         }
         return transactions;
 
@@ -45,7 +45,7 @@ public class FileManager {
 
         }
         catch(IOException e){
-            System.out.println("Error saving transaction" + e.getMessage());
+            CliColors.error("Error saving transaction: " + e.getMessage());
         }
     }
 }

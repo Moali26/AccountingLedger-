@@ -13,24 +13,24 @@ public class Main {
         boolean running = true;
 
         while (running) {
-            System.out.println("===== ACCOUNTING LEDGER =====");
-            System.out.println("(D) Add Deposit");
-            System.out.println("(P)Make Payment");
-            System.out.println("(L) Ledger");
-            System.out.println("(X) Exit");
+            CliColors.title("===== ACCOUNTING LEDGER =====");
+            CliColors.option("(D) Add Deposit");
+            CliColors.option("(P)Make Payment");
+            CliColors.option("(L) Ledger");
+            CliColors.option("(X) Exit");
 
-            System.out.println("Enter your choice: ");
+            CliColors.prompt("Enter your choice: ");
             String choice = scanner.nextLine();
 
             switch (choice) {
                 case "D":
-                    System.out.println("Enter deposit description");
+                    CliColors.prompt("Enter deposit description");
                     String depositDescription = scanner.nextLine();
 
-                    System.out.println("Enter deposit vendor");
+                    CliColors.prompt("Enter deposit vendor");
                     String depositVendor = scanner.nextLine();
 
-                    System.out.println("Enter deposit amount");
+                    CliColors.prompt("Enter deposit amount");
 
                     try {
                         double depositAmount = Double.parseDouble(scanner.nextLine());
@@ -45,27 +45,27 @@ public class Main {
 
                         if (depositAmount > 0) {
                             FileManager.saveTransaction(deposit);
-                            System.out.println("Deposit saved!");
+                            CliColors.success("Deposit saved!");
                         } else {
-                            System.out.println("Deposit amount must be greater than zero");
+                            CliColors.error("Deposit amount must be greater than zero");
                         }
 
                     } catch (NumberFormatException e) {
-                        System.out.println("Invalid amount. Please enter a number.");
+                        CliColors.error("Invalid amount. Please enter a number.");
                     }
 
                     break;
 
                 case "P":
-                    System.out.println("Make Payment selected");
+                    CliColors.info("Make Payment selected");
 
-                    System.out.println("Enter payment description");
+                    CliColors.prompt("Enter payment description");
                     String paymentDescription = scanner.nextLine();
 
-                    System.out.println("Enter payment vendor");
+                    CliColors.prompt("Enter payment vendor");
                     String paymentVendor = scanner.nextLine();
 
-                    System.out.println("Enter payment amount");
+                    CliColors.prompt("Enter payment amount");
 
                     try {
                         double paymentAmount = Double.parseDouble(scanner.nextLine());
@@ -82,28 +82,28 @@ public class Main {
                             );
 
                             FileManager.saveTransaction(payment);
-                            System.out.println("Payment saved!");
+                            CliColors.success("Payment saved!");
                         } else {
-                            System.out.println("Payment amount must be greater than zero");
+                            CliColors.error("Payment amount must be greater than zero");
                         }
 
                     } catch (NumberFormatException e) {
-                        System.out.println("Invalid amount. Please enter a number.");
+                        CliColors.error("Invalid amount. Please enter a number.");
                     }
 
                     break;
 
                 case "L":
-                    System.out.println("Ledger selected");
+                    CliColors.info("Ledger selected");
                     boolean ledgerRunning = true;
                     while (ledgerRunning) {
-                        System.out.println("===== LEDGER =====");
-                        System.out.println("(A) All Transactions");
-                        System.out.println("(D) Deposits");
-                        System.out.println("(P) Payments");
-                        System.out.println("(R) Reports");
-                        System.out.println("(H) Home");
-                        System.out.println("Enter your choice:");
+                        CliColors.title("===== LEDGER =====");
+                        CliColors.option("(A) All Transactions");
+                        CliColors.option("(D) Deposits");
+                        CliColors.option("(P) Payments");
+                        CliColors.option("(R) Reports");
+                        CliColors.option("(H) Home");
+                        CliColors.prompt("Enter your choice:");
                         String ledgerChoice = scanner.nextLine();
                         // view all transactions from most recent to least recent
                         List<Transaction> transactions = FileManager.getTransactions();
@@ -133,16 +133,16 @@ public class Main {
                         } else if (ledgerChoice.equalsIgnoreCase("R")) {
                             boolean reportsRunning = true;
                             while (reportsRunning) {
-                                System.out.println("===== REPORTS =====");
-                                System.out.println("1) Month to Date");
-                                System.out.println("2) Previous Month");
-                                System.out.println("3) Year to Date");
-                                System.out.println("4) Previous Year");
-                                System.out.println("5) Search by vendor");
-                                System.out.println("6) Custom Search");
-                                System.out.println("0) Back");
+                                CliColors.title("===== REPORTS =====");
+                                CliColors.option("1) Month to Date");
+                                CliColors.option("2) Previous Month");
+                                CliColors.option("3) Year to Date");
+                                CliColors.option("4) Previous Year");
+                                CliColors.option("5) Search by vendor");
+                                CliColors.option("6) Custom Search");
+                                CliColors.option("0) Back");
 
-                                System.out.println("Enter your choice");
+                                CliColors.prompt("Enter your choice");
                                 String reportChoice = scanner.nextLine();
 
                                 switch (reportChoice) {
@@ -205,7 +205,7 @@ public class Main {
                                         break;
 
                                     case "5":
-                                        System.out.println("Enter vendor name:");
+                                        CliColors.prompt("Enter vendor name:");
                                         String searchVendor = scanner.nextLine();
                                         List<Transaction> vendorTransactions = new ArrayList<>();
 
@@ -218,15 +218,15 @@ public class Main {
                                         break;
 
                                     case "6":
-                                        System.out.println("Enter start date (YYYY-MM-DD) or leave blank");
+                                        CliColors.prompt("Enter start date (YYYY-MM-DD) or leave blank");
                                         String startDateInput = scanner.nextLine();
-                                        System.out.println("Enter end date (YYYY-MM-DD or leave blank");
+                                        CliColors.prompt("Enter end date (YYYY-MM-DD) or leave blank");
                                         String endDateInput = scanner.nextLine();
-                                        System.out.println("Enter description or leave blank:");
+                                        CliColors.prompt("Enter description or leave blank:");
                                         String descriptionInput = scanner.nextLine();
-                                        System.out.println("Enter vendor or leave blank:");
+                                        CliColors.prompt("Enter vendor or leave blank:");
                                         String vendorInput = scanner.nextLine();
-                                        System.out.println("Enter amount or leave blank:");
+                                        CliColors.prompt("Enter amount or leave blank:");
                                         String amountInput = scanner.nextLine();
                                         List<Transaction> customResults = new ArrayList<>();
                                         try {
@@ -279,10 +279,10 @@ public class Main {
 
                                             sortTransactions(customResults);
                                         } catch(java.time.format.DateTimeParseException e){
-                                            System.out.println("Invalid date. Please use YYYY-MM-DD");
+                                            CliColors.error("Invalid date. Please use YYYY-MM-DD");
 
                                         }catch (NumberFormatException e){
-                                            System.out.println("Invalid amount. Please enter a number.");
+                                            CliColors.error("Invalid amount. Please enter a number.");
                                         }
 
 
@@ -292,13 +292,15 @@ public class Main {
                                         reportsRunning = false;
                                         break;
                                     default:
-                                        System.out.println("Invalid Reports choice. Please try again.");
+                                        CliColors.error("Invalid Reports choice. Please try again.");
                                         break;
                                 }
                             }
                         } else if (ledgerChoice.equalsIgnoreCase("H")) {
                             ledgerRunning = false;
 
+                        } else {
+                            CliColors.error("Invalid Ledger choice. Please try again.");
                         }
                     }
 
@@ -307,15 +309,11 @@ public class Main {
 
                 case "X":
                     running = false;
-                    System.out.
-
-                            println("Thanks for using Accounting Ledger!");
+                    CliColors.success("Thanks for using Accounting Ledger!");
                     break;
 
                 default:
-                    System.out.
-
-                            println("Invalid choice. Please try again");
+                    CliColors.error("Invalid choice. Please try again");
                     break;
             }
 
@@ -331,7 +329,7 @@ public class Main {
         Collections.sort(e, Comparator.comparing(t -> t.getDate() + " " + t.getTime()));
 
         for (int i = e.size() - 1; i >= 0; i--) {
-            System.out.println(e.get(i));
+            CliColors.transaction(e.get(i));
 
         }
     }
